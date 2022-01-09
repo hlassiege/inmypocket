@@ -12,6 +12,9 @@ const configuration = {
         sasu : {
             shareOfRevenueInSalary : 15        
         },
+        eurl : {
+            shareOfRevenueInSalary : 90        
+        },
         employee : {
             grossSalary : 70000
         }
@@ -86,4 +89,6 @@ const configuration = {
 };
 
 
-createApp(App).provide('configuration', configuration).mount('#app')
+createApp(App)
+.provide('configuration', configuration)
+.mount('#app')
