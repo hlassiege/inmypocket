@@ -152,10 +152,6 @@
                           <td>{{ dividends  }}€</td>
                         </tr>
                         <tr>
-                          <th scope="row">CSG/RDS sur dividendes</th>
-                          <td>-{{ csgRdsOnDividends  }}€</td>
-                        </tr>
-                        <tr>
                           <th scope="row">Cotisations sociales sur dividendes</th>
                           <td>-{{ socialContributionsOnDividends  }}€</td>
                         </tr>
@@ -252,23 +248,17 @@ export default {
     dividends() {
       return this.benefits - this.impotSociete;
     },
-    dividendsReceivedAfterCSGRDS() {
-      return this.dividends - this.csgRdsOnDividends;
-    },
     dividendsReceivedAfterTaxes() {
-      return this.dividends - this.csgRdsOnDividends - this.socialContributionsOnDividends;
+      return this.dividends - this.socialContributionsOnDividends;
     },
     taxableDividends() {
-      return Math.round( this.dividendsReceivedAfterTaxes * this.configuration.taxes.sasu.taxablePartOfDividends); 
+      return Math.round( this.dividendsReceivedAfterTaxes * this.configuration.taxes.eurl.taxablePartOfDividends); 
     },
     impotSociete () {
       return this.computeImpotSociete(this.benefits);
     },
     socialContributionsOnDividends() {
         return this.computeSocialContributions(this.dividends);
-    },
-    csgRdsOnDividends () {
-      return Math.round(this.dividends * this.configuration.taxes.sasu.csgRdsOnDividends); 
     },
     totalRevenue() {
       return this.dividendsReceivedAfterTaxes + this.netSalary;

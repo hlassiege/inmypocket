@@ -83,6 +83,8 @@ const configuration = {
             }
         },
         eurl : {
+            // abattement de 40% sur les dividendes. Source : https://www.lecoindesentrepreneurs.fr/imposition-fiscale-sociale-dividendes-eurl/ (2021)
+            taxablePartOfDividends : 0.6,
 
             // Source : https://www.lecoindesentrepreneurs.fr/taux-cotisations-sociales-tns-travailleur-independant/ (2021)
             socialContributions : {
