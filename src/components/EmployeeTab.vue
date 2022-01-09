@@ -103,6 +103,8 @@
 </template>
 
 <script>
+import computeImpotParTranche from '../helpers/taxeComputations';
+
 export default {
   name: "EmployeeTab",
   inject : ['configuration'],
@@ -135,23 +137,7 @@ export default {
   },
   methods : {
     computeImpotRevenu(montant){
-        return this.computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
-    },
-    computeImpotParTranche(montant, tranches) {
-      var impot = 0;
-      for(var i = 0; i < tranches.length; i++){
-                if (montant >= tranches[i][0]){
-                    const danslatranche = tranches[i][0];
-                    impot += danslatranche * tranches[i][1];
-                    montant = montant - tranches[i][0];
-                }else if (montant < tranches[i][0]){
-                    impot += montant*tranches[i][1];
-                    montant = 0;
-                    break;
-                }
-            }
-            
-        return Math.round(impot);
+        return computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
     }
   },
 

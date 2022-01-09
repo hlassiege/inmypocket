@@ -155,9 +155,13 @@
                           <th scope="row">CSG/RDS sur dividendes</th>
                           <td>-{{ csgRdsOnDividends  }}€</td>
                         </tr>
+                        <tr>
+                          <th scope="row">Cotisations sociales sur dividendes</th>
+                          <td>-{{ socialContributionsOnDividends  }}€</td>
+                        </tr>
                         <tr class="lineTotal">
                           <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterCSGRDS  }}€</td>
+                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
                         </tr>
                       </tbody>
                     </table>
@@ -181,7 +185,7 @@
                         </tr>
                         <tr>
                           <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterCSGRDS  }}€</td>
+                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
                         </tr>
                         <tr>
                           <td >Dividendes imposables <small>(abattement 40%)</small></td>
@@ -218,6 +222,8 @@
 </template>
 
 <script>
+import computeImpotParTranche from '../helpers/taxeComputations';
+
 export default {
   name: "SASUTab",
   inject : ['configuration'],
@@ -226,7 +232,7 @@ export default {
       tjm : this.configuration.default.tjm,
       workload : this.configuration.default.numberOfWorkedDays,
       expenses : this.configuration.default.expenses,
-      shareOfSalary : this.configuration.default.sasu.shareOfRevenueInSalary
+      shareOfSalary : this.configuration.default.eurl.shareOfRevenueInSalary
     };
   },  
   computed: {
@@ -249,65 +255,59 @@ export default {
     dividendsReceivedAfterCSGRDS() {
       return this.dividends - this.csgRdsOnDividends;
     },
+    dividendsReceivedAfterTaxes() {
+      return this.dividends - this.csgRdsOnDividends - this.socialContributionsOnDividends;
+    },
     taxableDividends() {
-      return Math.round( this.dividendsReceivedAfterCSGRDS * this.configuration.taxes.sasu.taxablePartOfDividends); 
+      return Math.round( this.dividendsReceivedAfterTaxes * this.configuration.taxes.sasu.taxablePartOfDividends); 
     },
     impotSociete () {
       return this.computeImpotSociete(this.benefits);
+    },
+    socialContributionsOnDividends() {
+        return this.computeSociaContributions(this.dividends);
     },
     csgRdsOnDividends () {
       return Math.round(this.dividends * this.configuration.taxes.sasu.csgRdsOnDividends); 
     },
     totalRevenue() {
-      return this.dividendsReceivedAfterCSGRDS + this.netSalary;
+      return this.dividendsReceivedAfterTaxes + this.netSalary;
     },
     totalTaxableRevenue() {
-      return this.taxableDividends + this.netSalary;
+      return this.taxableDividends + this.netSalary - Math.round((this.taxableDividends + this.netSalary)*0.10);
     },
     impotRevenu() {
       return this.computeImpotRevenu( this.totalTaxableRevenue );
     },
     socialContributions() {
-
-        var allocationsFamiliales = Math.round(this.grossSalary * this.configuration.taxes.sasu.socialContributions.allocationFamiliales);
-        var formationPro = Math.round(this.grossSalary * this.configuration.taxes.sasu.socialContributions.formationProfessionnelle);
-        var aideLogement = Math.round(this.grossSalary * this.configuration.taxes.sasu.socialContributions.aideLogement);
-        var csgRds = Math.round((this.grossSalary * this.configuration.taxes.sasu.socialContributions.csgRds.partDuRevenuConsidere ) * this.configuration.taxes.sasu.socialContributions.csgRds.taux);
-        var maladieMaternite = Math.round(this.grossSalary * this.configuration.taxes.sasu.socialContributions.maladieMaternite);
-
-        var assuranceVieillesse = Math.round(this.computeImpotParTranche(this.grossSalary,  this.configuration.taxes.sasu.socialContributions.assuranceVieillesse));
-        var retraitesCadres = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.retraiteCadres));
-        var cotisationRetraiteCadre = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.cotisationRetraiteCadres));
-        var agff = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.agff));
-        var prevoyance = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.prevoyance));
-        var apec = Math.round(this.computeImpotParTranche(this.grossSalary, this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.apec)));
-
-        return allocationsFamiliales + formationPro + csgRds + aideLogement + maladieMaternite + assuranceVieillesse + retraitesCadres + cotisationRetraiteCadre + agff + prevoyance + apec;
+        return this.computeSociaContributions(this.grossSalary);
     }
   },
   methods : {
+    computeSociaContributions(amount) {
+      var allocationsFamiliales = Math.round(amount * this.configuration.taxes.sasu.socialContributions.allocationFamiliales);
+      var formationPro = Math.round(amount * this.configuration.taxes.sasu.socialContributions.formationProfessionnelle);
+      var aideLogement = Math.round(amount * this.configuration.taxes.sasu.socialContributions.aideLogement);
+      var csgRds = Math.round((amount * this.configuration.taxes.sasu.socialContributions.csgRds.partDuRevenuConsidere ) * this.configuration.taxes.sasu.socialContributions.csgRds.taux);
+      var maladieMaternite = Math.round(amount * this.configuration.taxes.sasu.socialContributions.maladieMaternite);
+
+      var assuranceVieillesse = Math.round(computeImpotParTranche(amount,  this.configuration.taxes.sasu.socialContributions.assuranceVieillesse));
+      var retraitesCadres = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.retraiteCadres));
+      var cotisationRetraiteCadre = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.cotisationRetraiteCadres));
+      var agff = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.agff));
+      var prevoyance = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.prevoyance));
+      var apec = Math.round(computeImpotParTranche(amount, computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.apec)));
+
+      return allocationsFamiliales + formationPro + csgRds + aideLogement + maladieMaternite + assuranceVieillesse + retraitesCadres + cotisationRetraiteCadre + agff + prevoyance + apec;
+    
+    },
     computeImpotSociete(montant){
-        return this.computeImpotParTranche(montant, this.configuration.taxes.impotSociete);
+        return computeImpotParTranche(montant, this.configuration.taxes.impotSociete);
     }, 
     computeImpotRevenu(montant){
-        return this.computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
-    },
-    computeImpotParTranche(montant, tranches) {
-      var impot = 0;
-      for(var i = 0; i < tranches.length; i++){
-                if (montant >= tranches[i][0]){
-                    const danslatranche = tranches[i][0];
-                    impot += danslatranche * tranches[i][1];
-                    montant = montant - tranches[i][0];
-                }else if (montant < tranches[i][0]){
-                    impot += montant*tranches[i][1];
-                    montant = 0;
-                    break;
-                }
-            }
-            
-        return Math.round(impot);
+        return computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
     }
+  
   },
 
 };

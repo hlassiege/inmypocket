@@ -221,6 +221,8 @@
 </template>
 
 <script>
+import computeImpotParTranche from '../helpers/taxeComputations';
+
 export default {
   name: "SASUTab",
   inject : ['configuration'],
@@ -265,7 +267,7 @@ export default {
       return this.dividendsReceivedAfterCSGRDS + this.netSalary;
     },
     totalTaxableRevenue() {
-      return this.taxableDividends + this.netSalary;
+      return this.taxableDividends + this.netSalary - Math.round((this.taxableDividends + this.netSalary)*0.10);
     },
     impotRevenu() {
       return this.computeImpotRevenu( this.totalTaxableRevenue );
@@ -278,39 +280,23 @@ export default {
         var csgRds = Math.round((this.grossSalary * this.configuration.taxes.sasu.socialContributions.csgRds.partDuRevenuConsidere ) * this.configuration.taxes.sasu.socialContributions.csgRds.taux);
         var maladieMaternite = Math.round(this.grossSalary * this.configuration.taxes.sasu.socialContributions.maladieMaternite);
 
-        var assuranceVieillesse = Math.round(this.computeImpotParTranche(this.grossSalary,  this.configuration.taxes.sasu.socialContributions.assuranceVieillesse));
-        var retraitesCadres = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.retraiteCadres));
-        var cotisationRetraiteCadre = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.cotisationRetraiteCadres));
-        var agff = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.agff));
-        var prevoyance = Math.round(this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.prevoyance));
-        var apec = Math.round(this.computeImpotParTranche(this.grossSalary, this.computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.apec)));
+        var assuranceVieillesse = Math.round(computeImpotParTranche(this.grossSalary,  this.configuration.taxes.sasu.socialContributions.assuranceVieillesse));
+        var retraitesCadres = Math.round(computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.retraiteCadres));
+        var cotisationRetraiteCadre = Math.round(computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.cotisationRetraiteCadres));
+        var agff = Math.round(computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.agff));
+        var prevoyance = Math.round(computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.prevoyance));
+        var apec = Math.round(computeImpotParTranche(this.grossSalary, computeImpotParTranche(this.grossSalary, this.configuration.taxes.sasu.socialContributions.apec)));
 
         return allocationsFamiliales + formationPro + csgRds + aideLogement + maladieMaternite + assuranceVieillesse + retraitesCadres + cotisationRetraiteCadre + agff + prevoyance + apec;
     }
   },
   methods : {
     computeImpotSociete(montant){
-        return this.computeImpotParTranche(montant, this.configuration.taxes.impotSociete);
+        return computeImpotParTranche(montant, this.configuration.taxes.impotSociete);
     }, 
     computeImpotRevenu(montant){
-        return this.computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
+        return computeImpotParTranche(montant, this.configuration.taxes.impotRevenu);
     },
-    computeImpotParTranche(montant, tranches) {
-      var impot = 0;
-      for(var i = 0; i < tranches.length; i++){
-                if (montant >= tranches[i][0]){
-                    const danslatranche = tranches[i][0];
-                    impot += danslatranche * tranches[i][1];
-                    montant = montant - tranches[i][0];
-                }else if (montant < tranches[i][0]){
-                    impot += montant*tranches[i][1];
-                    montant = 0;
-                    break;
-                }
-            }
-            
-        return Math.round(impot);
-    }
   },
 
 };
