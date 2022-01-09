@@ -242,7 +242,7 @@ export default {
       return this.revenue - this.expenses - this.grossSalary;
     },
     grossSalary() {
-      return this.revenue * this.shareOfSalary / 100;
+      return (this.revenue - this.expenses) * this.shareOfSalary / 100;
     },
     netSalary() {
       return this.grossSalary - this.socialContributions;

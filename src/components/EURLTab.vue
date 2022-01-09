@@ -243,7 +243,7 @@ export default {
       return this.revenue - this.expenses - this.grossSalary;
     },
     grossSalary() {
-      return this.revenue * this.shareOfSalary / 100;
+      return (this.revenue - this.expenses) * this.shareOfSalary / 100;
     },
     netSalary() {
       return this.grossSalary - this.socialContributions;
@@ -265,7 +265,7 @@ export default {
       return this.computeImpotSociete(this.benefits);
     },
     socialContributionsOnDividends() {
-        return this.computeSociaContributions(this.dividends);
+        return this.computeSocialContributions(this.dividends);
     },
     csgRdsOnDividends () {
       return Math.round(this.dividends * this.configuration.taxes.sasu.csgRdsOnDividends); 
@@ -280,25 +280,19 @@ export default {
       return this.computeImpotRevenu( this.totalTaxableRevenue );
     },
     socialContributions() {
-        return this.computeSociaContributions(this.grossSalary);
+        return this.computeSocialContributions(this.grossSalary);
     }
   },
   methods : {
-    computeSociaContributions(amount) {
-      var allocationsFamiliales = Math.round(amount * this.configuration.taxes.sasu.socialContributions.allocationFamiliales);
-      var formationPro = Math.round(amount * this.configuration.taxes.sasu.socialContributions.formationProfessionnelle);
-      var aideLogement = Math.round(amount * this.configuration.taxes.sasu.socialContributions.aideLogement);
-      var csgRds = Math.round((amount * this.configuration.taxes.sasu.socialContributions.csgRds.partDuRevenuConsidere ) * this.configuration.taxes.sasu.socialContributions.csgRds.taux);
-      var maladieMaternite = Math.round(amount * this.configuration.taxes.sasu.socialContributions.maladieMaternite);
+    computeSocialContributions(amount) {
+      var allocationsFamiliales = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.allocationFamiliales));
+      var csgRds = Math.round(amount * this.configuration.taxes.eurl.socialContributions.csgRds);
+      var maladieMaternite = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.maladieMaternite));
+      var retraiteBase = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.retraiteBase));
+      var retraiteComplementaire = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.retraiteComplementaire));
+      var prevoyance = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.prevoyance));
 
-      var assuranceVieillesse = Math.round(computeImpotParTranche(amount,  this.configuration.taxes.sasu.socialContributions.assuranceVieillesse));
-      var retraitesCadres = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.retraiteCadres));
-      var cotisationRetraiteCadre = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.cotisationRetraiteCadres));
-      var agff = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.agff));
-      var prevoyance = Math.round(computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.prevoyance));
-      var apec = Math.round(computeImpotParTranche(amount, computeImpotParTranche(amount, this.configuration.taxes.sasu.socialContributions.apec)));
-
-      return allocationsFamiliales + formationPro + csgRds + aideLogement + maladieMaternite + assuranceVieillesse + retraitesCadres + cotisationRetraiteCadre + agff + prevoyance + apec;
+      return allocationsFamiliales + csgRds + maladieMaternite +  retraiteBase + retraiteComplementaire + prevoyance ;
     
     },
     computeImpotSociete(montant){

@@ -13,7 +13,7 @@ const configuration = {
             shareOfRevenueInSalary : 15        
         },
         eurl : {
-            shareOfRevenueInSalary : 90        
+            shareOfRevenueInSalary : 100        
         },
         employee : {
             grossSalary : 70000
@@ -80,6 +80,39 @@ const configuration = {
                     [3111, 0],
                     [13244, 0.0006]
                 ]                          
+            }
+        },
+        eurl : {
+
+            // Source : https://www.lecoindesentrepreneurs.fr/taux-cotisations-sociales-tns-travailleur-independant/ (2021)
+            socialContributions : {
+                allocationFamiliales : [
+                    [45250, 0],
+                    [57590, 0.031],
+                    [Infinity, 0.031],
+                ],
+                indemnitesJournalieres : [
+                    [205680, 0.0085],
+                    [Infinity, 0]
+                ],
+                maladieMaternite : [
+                    [16454, 0.0316],
+                    [45250, 0.0635],
+                    [205680, 0.0635],
+                    [Infinity, 0.065]
+                ],
+                retraiteBase : [
+                    [41136, 0.1775],
+                    [Infinity, 0.006]
+                ],  
+                retraiteComplementaire : [
+                    [38493, 0.07],
+                    [164544, 0.08]
+                ],                                
+                csgRds : 0.097,
+                prevoyance : [
+                    [41136, 0.013]
+                ]                        
             }
         }
     }
