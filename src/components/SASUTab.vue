@@ -30,13 +30,13 @@
       <div class="card text-center col-md-3">
           <div class="card-body">
             <h6 class="card-title text-uppercase text-muted">Chiffre d'affaire annuel: </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ revenue }}</span></p>
+            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ revenue.toLocaleString() }}</span></p>
           </div>
       </div>
       <div class="card text-center col-md-3">
           <div class="card-body">
             <h6 class="card-title text-uppercase text-muted">In my pocket (après IR): </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ totalRevenue -  impotRevenu }}</span></p>
+            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (totalRevenue -  impotRevenu).toLocaleString() }}</span></p>
           </div>
       </div>
     </div>
@@ -110,7 +110,10 @@
                           <td>{{ grossSalary }}€</td>
                         </tr>
                         <tr style="border-top: 1px solid #ff000d;">
-                          <th scope="row">Total charges sociétés</th>
+                          <th scope="row">Total charges sociétés
+                            <br>
+                            <small class="fw-light text-danger">Ici il y a une erreur car les charges ne devraient pas inclure les cotisations salariales</small>
+                          </th>
                           <td>{{ grossSalary + expenses }}€</td>
                         </tr>
                       </tbody>

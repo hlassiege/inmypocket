@@ -6,11 +6,14 @@ import App from './App.vue'
 const configuration = {
 
     default : {
-        tjm : 600,
+        tjm : 500,
         numberOfWorkedDays : 200,
         expenses : 10000,
         sasu : {
             shareOfRevenueInSalary : 15        
+        },
+        employee : {
+            grossSalary : 70000
         }
     },
     taxes : {
