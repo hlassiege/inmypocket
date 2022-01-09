@@ -7,6 +7,8 @@ N'hésitez pas à relire et contribuer par pull request.
 
 Les taux retenus pour les différentes taxes sont dans le fichier main.js
 
+L'application est visible en ligne ici : https://hlassiege.github.io/inmypocket/
+
 
 ## Project setup
 ```
