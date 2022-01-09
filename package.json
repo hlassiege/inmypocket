@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "deploy": "cd scripts && deploy.bat"
+    "deploy": "cd scripts && build.bat && cd scripts && deploy.bat "
   },
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
