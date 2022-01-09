@@ -29,7 +29,7 @@
 
 <script>
 import SASUTab from './SASUTab.vue'
-import EURLTab from './SASUTab.vue'
+import EURLTab from './EURLTab.vue'
 
 export default {
   name: 'MainTab',

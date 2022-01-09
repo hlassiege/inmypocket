@@ -1,9 +1,5 @@
 <template>
-  <header>
-    <div class="logo">
-      <img alt="Vue logo" src="./assets/logo.png">
-    </div>
-  </header>
+
   <MainTab/>
 </template>
 
