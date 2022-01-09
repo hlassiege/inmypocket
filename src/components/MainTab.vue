@@ -1,36 +1,46 @@
 <template>
-  <div>
-  <b-tabs content-class="mt-3">
-    <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-    <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-    <b-tab title="Disabled" disabled><p>I'm a disabled tab!</p></b-tab>
-  </b-tabs>
-</div>
+  <div class="container">
+      <ul class="nav nav-tabs"  id="mainTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="sasu-tab" data-bs-toggle="tab" data-bs-target="#sasu" type="button" role="tab" aria-controls="sasu" aria-selected="true">SASU</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link " id="eurl-tab" data-bs-toggle="tab" data-bs-target="#eurl" type="button" role="tab" aria-controls="eurl" aria-selected="true">EURL</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link " id="ei-tab" data-bs-toggle="tab" data-bs-target="#ei" type="button" role="tab" aria-controls="ei" aria-selected="true">EI</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link " id="portage-tab" data-bs-toggle="tab" data-bs-target="#portage" type="button" role="tab" aria-controls="portage" aria-selected="true">Portage salarial</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link " id="employee-tab" data-bs-toggle="tab" data-bs-target="#employee" type="button" role="tab" aria-controls="employee" aria-selected="true">Salariat</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="mainTabContent">
+        <div class="tab-pane fade show active" id="sasu" role="tabpanel" aria-labelledby="sasu-tab"><SASUTab/></div>
+        <div class="tab-pane fade" id="eurl" role="tabpanel" aria-labelledby="eurl-tab"><EURLTab/></div>
+        <div class="tab-pane fade" id="ei" role="tabpanel" aria-labelledby="ei-tab"><EURLTab/></div>
+        <div class="tab-pane fade" id="portage" role="tabpanel" aria-labelledby="portage-tab"><EURLTab/></div>
+        <div class="tab-pane fade" id="salariat" role="tabpanel" aria-labelledby="salariat-tab"><EURLTab/></div>
+      </div>
+  </div>
 </template>
 
 <script>
+import SASUTab from './SASUTab.vue'
+import EURLTab from './SASUTab.vue'
+
 export default {
   name: 'MainTab',
-  props: {
-    
+  components: {
+    SASUTab, EURLTab
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
 li {
-  display: inline-block;
   margin: 0 10px;
-}
-a {
-  color: #42b983;
 }
 </style>

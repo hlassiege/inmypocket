@@ -1,5 +1,13 @@
 # in-my-pocket
 
+Cette application fournit quelques outils pour freelances.
+Le premier outil est le calcul des revenus net après impot en fonction des statuts choisis. 
+
+N'hésitez pas à relire et contribuer par pull request.
+
+Les taux retenus pour les différentes taxes sont dans le fichier main.js
+
+
 ## Project setup
 ```
 pnpm install
