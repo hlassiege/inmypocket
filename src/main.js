@@ -20,6 +20,8 @@ const configuration = {
             grossSalary : 70000
         },
         portage : {
+            // taux entre 50 et 10 selon les sociétés de portage, du service qu'elles proposent (avance de tréso par exemple)
+            // on trouve des sociétés de portages hyper compétitives également (1%) avec moins de services.
             fees : 10
         }
     },
