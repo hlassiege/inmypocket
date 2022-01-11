@@ -10,7 +10,8 @@ const configuration = {
         numberOfWorkedDays : 200,
         expenses : 10000,
         sasu : {
-            shareOfRevenueInSalary : 15        
+            shareOfRevenueInSalary : 15,
+            flatTax : true     
         },
         eurl : {
             shareOfRevenueInSalary : 100        
@@ -39,6 +40,8 @@ const configuration = {
 
 
         sasu : {
+            // Flat tax sur les dividendes. Source https://www.dougs.fr/blog/fiscalite-et-dividendes/ (2021)
+            flatTaxOnDividends : 0.30,
             // abattement de 40% sur les dividendes. Source : https://www.lecoindesentrepreneurs.fr/imposition-dividendes-sasu (2021)
             taxablePartOfDividends : 0.6,
             // Part de la CSG sur les dividendes imposables . Source : https://www.assistant-juridique.fr/regime_fiscal_social_dividendes.jsp (2022)

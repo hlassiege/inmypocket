@@ -57,21 +57,27 @@
                 <div class="accordion-body">
 
                   <form>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label for="expenses" class="form-label">Frais annuel</label>
-                        <div class="input-group">
-                          <span class="input-group-text" id="euros">€</span>
-                        <input type="text" v-model="expenses" class="form-control" id="expenses" placeholder="10000" aria-describedby="euros">
-                        </div>
+                    <div class="mb-3">
+                      <label for="expenses" class="form-label">Frais annuel</label>
+                      <div class="input-group">
+                        <span class="input-group-text" id="euros">€</span>
+                      <input type="text" v-model="expenses" class="form-control" id="expenses" placeholder="10000" aria-describedby="euros">
                       </div>
-                      <div class="col-md-6">
+                    </div>
+                    <div class="mb-3">
+                      <div class="mb-3 ">
                         <label for="shareOfSalary" class="form-label">Pourcentage versé en salaire (versus dividendes)</label>
                         <div class="input-group">
-                        <span class="input-group-text" id="percent">%</span>
+                          <span class="input-group-text" id="percent">%</span>
                         <input type="text" v-model="shareOfSalary" class="form-control" id="shareOfSalary" placeholder="15" aria-describedby="percent">
-                        </div>
                       </div>
+                    </div>
+                    </div>
+                    <div class="form-check mb-3 ">
+                      <input class="form-check-input" type="checkbox" v-model="flatTax" :value="true" id="flatTax">
+                      <label class="form-check-label" for="flatTax">
+                        Dividendes soumis à la Flat Tax (Imposition à l'IR si la case est décoché)
+                      </label>
                     </div>
                   </form>
                 </div>
@@ -111,8 +117,6 @@
                         </tr>
                         <tr style="border-top: 1px solid #ff000d;">
                           <th scope="row">Total charges sociétés
-                            <br>
-                            <small class="fw-light text-danger">Ici il y a une erreur car les charges ne devraient pas inclure les cotisations salariales</small>
                           </th>
                           <td>{{ grossSalary + expenses }}€</td>
                         </tr>
@@ -154,13 +158,17 @@
                           <th scope="row">Dividendes brut</th>
                           <td>{{ dividends  }}€</td>
                         </tr>
-                        <tr>
-                          <th scope="row">CSG/RDS sur dividendes</th>
+                        <tr v-if="!flatTax">
+                          <th scope="row" >CSG/RDS sur dividendes</th>
                           <td>-{{ csgRdsOnDividends  }}€</td>
+                        </tr>
+                        <tr v-if="flatTax">
+                          <th scope="row" >Flat Tax sur dividendes</th>
+                          <td>-{{ flatTaxOnDividends  }}€</td>
                         </tr>
                         <tr class="lineTotal">
                           <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterCSGRDS  }}€</td>
+                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
                         </tr>
                       </tbody>
                     </table>
@@ -184,10 +192,14 @@
                         </tr>
                         <tr>
                           <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterCSGRDS  }}€</td>
+                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
                         </tr>
                         <tr>
-                          <td >Dividendes imposables <small>(abattement 40%)</small></td>
+                          <td >Dividendes imposables 
+                            <br/>
+                            <small v-if="!flatTax">(abattement 40%)</small>
+                            <small v-if="flatTax">(0 avec le choix de la flatTax)</small>
+                          </td>
                           <td>{{ taxableDividends  }}€</td>
                         </tr>
                         <tr class="lineTotal">
@@ -229,6 +241,7 @@ export default {
   data : function() {
     return {
       tjm : this.configuration.default.tjm,
+      flatTax : this.configuration.default.sasu.flatTax,
       workload : this.configuration.default.numberOfWorkedDays,
       expenses : this.configuration.default.expenses,
       shareOfSalary : this.configuration.default.sasu.shareOfRevenueInSalary
@@ -251,20 +264,32 @@ export default {
     dividends() {
       return this.benefits - this.impotSociete;
     },
-    dividendsReceivedAfterCSGRDS() {
-      return this.dividends - this.csgRdsOnDividends;
+    dividendsReceivedAfterTaxes() {
+      return this.dividends - this.csgRdsOnDividends - this.flatTaxOnDividends;
     },
     taxableDividends() {
-      return Math.round( this.dividendsReceivedAfterCSGRDS * this.configuration.taxes.sasu.taxablePartOfDividends); 
+      if (this.flatTax) {
+        return 0;
+      }
+      return Math.round( this.dividendsReceivedAfterTaxes * this.configuration.taxes.sasu.taxablePartOfDividends); 
     },
     impotSociete () {
       return this.computeImpotSociete(this.benefits);
     },
+    flatTaxOnDividends () {
+      if (this.flatTax) {
+        return Math.round(this.dividends * this.configuration.taxes.sasu.flatTaxOnDividends); 
+      }
+      else return 0;      
+    },
     csgRdsOnDividends () {
+      if (this.flatTax) {
+        return 0;
+      }
       return Math.round(this.dividends * this.configuration.taxes.sasu.csgRdsOnDividends); 
     },
     totalRevenue() {
-      return this.dividendsReceivedAfterCSGRDS + this.netSalary;
+      return this.dividendsReceivedAfterTaxes + this.netSalary;
     },
     totalTaxableRevenue() {
       return this.taxableDividends + this.netSalary - Math.round((this.taxableDividends + this.netSalary)*0.10);
