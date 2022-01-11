@@ -128,11 +128,10 @@ export default {
       return this.computeImpotRevenu( this.totalTaxableRevenue );
     },
     socialContributions() {
-      // TODO faire un calcul plus précis (comme pour SASU et EURL)
-      return Math.round(this.grossSalary * 0.23);
+      return Math.round(this.grossSalary * this.configuration.taxes.employee.socialContributions);
     },
     companySocialContributions() {
-      return Math.round(this.grossSalary * 0.42);
+      return Math.round(this.grossSalary * this.configuration.taxes.employee.toGrossSalary);
     }
   },
   methods : {

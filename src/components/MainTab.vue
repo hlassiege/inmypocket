@@ -8,6 +8,9 @@
           <button class="nav-link " id="eurl-tab" data-bs-toggle="tab" data-bs-target="#eurl" type="button" role="tab" aria-controls="eurl" aria-selected="true">EURL</button>
         </li>
         <li class="nav-item" role="presentation">
+          <button class="nav-link " id="portage-tab" data-bs-toggle="tab" data-bs-target="#portage" type="button" role="tab" aria-controls="portage" aria-selected="true">Portage Salarial</button>
+        </li>
+        <li class="nav-item" role="presentation">
           <button class="nav-link " id="employee-tab" data-bs-toggle="tab" data-bs-target="#employee" type="button" role="tab" aria-controls="employee" aria-selected="true">Salariat</button>
         </li>
       </ul>
@@ -15,6 +18,7 @@
         <div class="tab-pane fade show active" id="sasu" role="tabpanel" aria-labelledby="sasu-tab"><sasu-tab/></div>
         <div class="tab-pane fade" id="eurl" role="tabpanel" aria-labelledby="eurl-tab"><eurl-tab/></div>
         <div class="tab-pane fade" id="employee" role="tabpanel" aria-labelledby="salariat-tab"><employee-tab/></div>
+        <div class="tab-pane fade" id="portage" role="tabpanel" aria-labelledby="salariat-tab"><portage-tab/></div>
       </div>
   </div>
 </template>
@@ -23,11 +27,12 @@
 import sasuTab from './SASUTab.vue'
 import eurlTab from './EURLTab.vue'
 import employeeTab from './EmployeeTab.vue'
+import portageTab from './Portage.vue'
 
 export default {
   name: 'MainTab',
   components: {
-    sasuTab, eurlTab, employeeTab
+    sasuTab, eurlTab, employeeTab, portageTab
   }
 }
 </script>

@@ -18,6 +18,9 @@ const configuration = {
         },
         employee : {
             grossSalary : 70000
+        },
+        portage : {
+            fees : 10
         }
     },
     taxes : {
@@ -38,7 +41,12 @@ const configuration = {
         [Infinity, 0.025]
        ],
 
-
+        employee : {
+            socialContributions : 0.23,
+            companySocialContributions : 0.296,
+            // pour calculer le super brut à partir du brut 
+            toGrossSalary : 0.42           
+        }, 
         sasu : {
             // Flat tax sur les dividendes. Source https://www.dougs.fr/blog/fiscalite-et-dividendes/ (2021)
             flatTaxOnDividends : 0.30,
