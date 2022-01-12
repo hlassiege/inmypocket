@@ -19,6 +19,10 @@ const configuration = {
         employee : {
             grossSalary : 70000
         },
+        autoentreprise : {
+            // En Auto entreprise, on ne doit pas dépasser 72 600 euros de revenus donc il faut adapter les valeurs par défaut
+            numberOfWorkedDays : 145,
+        },
         portage : {
             // taux entre 50 et 10 selon les sociétés de portage, du service qu'elles proposent (avance de tréso par exemple)
             // on trouve des sociétés de portages hyper compétitives également (1%) avec moins de services.
@@ -42,6 +46,14 @@ const configuration = {
         [38120, 0.15],
         [Infinity, 0.025]
        ],
+
+        autoentreprise : {
+            // Source : https://www.superindep.fr/blog/2021/salaire-autoentrepreneur-net/ (2022)
+            socialContributions : 0.22,
+            // Source : https://www.impots.gouv.fr/portail/professionnel/questions/pour-rester-micro-entrepreneur-quel-montant-de-chiffre-daffaires-ou-de
+            // seuil max à ne pas dépasser en terme de CA (pour une activité de prestations de service)
+            maxRevenue : 72600
+        },
 
         employee : {
             socialContributions : 0.23,
