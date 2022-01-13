@@ -5,7 +5,7 @@ Le premier outil est le calcul des revenus net après impot en fonction des stat
 
 N'hésitez pas à relire et contribuer par pull request.
 
-Les taux retenus pour les différentes taxes sont dans le fichier main.js
+Les taux retenus pour les différentes taxes sont dans le fichier config.js
 
 L'application est visible en ligne ici : https://hlassiege.github.io/inmypocket/
 
