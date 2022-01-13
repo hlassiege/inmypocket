@@ -1,33 +1,21 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
-import { createApp, h } from 'vue'
+import { createApp } from 'vue'
+import { createRouter, createWebHistory } from 'vue-router'
 import configuration from './config'
 import routes from './routes'
-
-const SimpleRouterApp = {
-    data: () => ({
-        currentRoute: window.location.pathname
-    }),
-
-    computed: {
-        ViewComponent () {
-            const matchingPage = routes[this.currentRoute] || '404'
-            return require(`./pages/${matchingPage}.vue`).default
-        }
-    },
-
-    render () {
-        return h(this.ViewComponent)
-    },
-
-    created () {
-        window.addEventListener('popstate', () => {
-            this.currentRoute = window.location.pathname
-        })
-    }
-}
+import App from './App'
 
 
-createApp(SimpleRouterApp)
+const router = createRouter({
+    history: createWebHistory(),
+    linkActiveClass: "active",
+    linkExactActiveClass: "exact-active",
+    routes,
+})
+
+
+createApp(App)
+.use(router)
 .provide('configuration', configuration)
 .mount('#app')

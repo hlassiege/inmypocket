@@ -7,29 +7,19 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="/sasu" class="nav-link active" aria-current="page">
-                        SASU
-                    </a>
+                    <router-link class="nav-link text-white" to="/sasu">SASU</router-link>
                 </li>
                 <li>
-                    <a href="/eurl" class="nav-link text-white">
-                        EURL
-                    </a>
+                    <router-link class="nav-link text-white " to="/eurl">EURL</router-link>
                 </li>
                 <li>
-                    <a href="/portage" class="nav-link text-white">
-                        Portage Salarial
-                    </a>
+                    <router-link class="nav-link text-white" to="/portage">Portage Salarial</router-link>
                 </li>
                 <li>
-                    <a href="/micro" class="nav-link text-white">
-                        Auto/Micro Entreprise
-                    </a>
+                    <router-link class="nav-link text-white" to="/micro">Auto/Micro Entreprise</router-link>
                 </li>
                 <li>
-                    <a href="/employee" class="nav-link text-white">
-                        Salariat
-                    </a>
+                    <router-link class="nav-link text-white" to="/employee">Salariat</router-link>
                 </li>
             </ul>
             <hr>
