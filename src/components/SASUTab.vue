@@ -1,48 +1,47 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
-      <div class="card">
-        <div class="card-header">
-          Paramètres
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Veuillez renseigner les paramètres nécessaires pour calculer vos revenus</h5>
-          <p class="card-text">Plus de paramètres sont à votre disposition plus bas</p>
-          <form>
-            <div class="row">
-              <div class="col-md-6">
-                <label for="tjm" class="form-label">TJM (votre tarif journalier)</label>
-                <input type="text" v-model="tjm" class="form-control" id="tjm" placeholder="600">
-              </div>
-              <div class="col-md-6">
-                <label for="workload" class="form-label">Nombre de jours travaillés dans l'année</label>
-                <input type="text" v-model="workload" class="form-control" id="workload" placeholder="200">
-              </div>
+      <h5>Veuillez renseigner les paramètres nécessaires pour calculer vos revenus</h5>
+      <p class="small">Plus de paramètres sont à votre disposition plus bas</p>
+      <form class="mt-4">
+        <div class="row">
+          <div class="col-md-6">
+          <div class="mb-3">
+            <label for="tjm" class="form-label">TJM (votre tarif journalier HT)</label>
+            <div class="input-group mb-3">
+              <input type="text" v-model="tjm" id="tjm" placeholder="600" class="form-control" aria-label="TJM HT">
+              <span class="input-group-text">€ HT</span>
             </div>
-          </form>
+          </div>
+          <div class="mb-3">
+            <label for="workload" class="form-label">Nombre de jours travaillés dans l'année</label>
+            <span class="range-legend">{{ workload }}</span>
+            <input type="range" v-model="workload" min="0" max="365" class="form-range" id="workload">
+          </div>
+        </div>
+        </div>
+      </form>
+
+    </div>
+
+
+    <hr class="mt-5 mb-5">
+
+
+    <div class="row">
+      <div class="d-flex flex-row justify-content-center">
+        <div class="card text-center col-md-3 card-stats">
+          <div class="card-body">
+            <h6 class="card-title text-uppercase text-muted"><i class="bi-gift-fill"></i> &nbsp; In my pocket (après IR): </h6>
+            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (totalRevenue -  impotRevenu).toLocaleString() }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </div>
 
-    
-    
-    <div class="row">
-      <div class="card text-center col-md-3">
-          <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted">Chiffre d'affaire annuel: </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ revenue.toLocaleString() }}</span></p>
-          </div>
-      </div>
-      <div class="card text-center col-md-3">
-          <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted">In my pocket (après IR): </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (totalRevenue -  impotRevenu).toLocaleString() }}</span></p>
-          </div>
-      </div>
-    </div>
 
-
-    <div class="row">
+    <div class="row mt-5">
       <div class="card">
         
         <div class="card-body">
@@ -338,4 +337,31 @@ export default {
 .lineTotal {
   border-top: 1px solid #ff000d;
 }
+  .range-legend {
+    float : right;
+    padding: 3px;
+    background-color: #3d9cff;
+    color: white;
+  }
+
+.card-stats{
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+  transition: .3s transform cubic-bezier(.155,1.105,.295,1.12),.3s box-shadow,.3s -webkit-transform cubic-bezier(.155,1.105,.295,1.12);
+  padding: 14px 80px 18px 36px;
+  cursor: pointer;
+  background-image: url(../assets/card-stats.png);
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: 80px;
+}
+
+.card-stats:hover{
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+
+
 </style>

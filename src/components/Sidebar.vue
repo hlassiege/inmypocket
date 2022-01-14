@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid content">
         <div class="row">
             <div class="col-2">
                 <div class="row">
@@ -49,6 +49,9 @@
 <style>
     a.active {
         color : #fff !important;
+    }
+    .content {
+        height: 83%;
     }
 
 </style>
