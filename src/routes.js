@@ -1,4 +1,3 @@
-import Home from "./pages/Home";
 import SASU from "./pages/SASU";
 import EURL from "./pages/EURL";
 import AutoEntrepreneur from "./pages/AutoEntrepreneur";
@@ -7,7 +6,7 @@ import Portage from "./pages/Portage";
 
 
 export default [
-    { path: '/', component: Home },
+    { path: '/', redirect: "sasu" },
     { path: '/sasu', component: SASU },
     { path: '/eurl', component: EURL },
     { path: '/micro', component: AutoEntrepreneur },
