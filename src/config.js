@@ -5,6 +5,7 @@ export default {
         tjm : 500,
         numberOfWorkedDays : 200,
         expenses : 10000,
+        computeIncomeTaxWithTaxRate : false,
         sasu : {
             shareOfRevenueInSalary : 15,
             flatTax : true

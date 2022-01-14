@@ -78,6 +78,36 @@
                         Dividendes soumis à la Flat Tax (Imposition à l'IR si la case est décoché)
                       </label>
                     </div>
+
+                    <hr class="mt-4 mb-3"/>
+
+                    <div class="form-check mb-3 ">
+                      <input class="form-check-input" type="checkbox" v-model="computeIncomeTaxWithTaxRate" :value="true" id="computeIncomeTaxWithTaxRate">
+                      <label class="form-check-label" for="computeIncomeTaxWithTaxRate">
+                        Calculer l'impôt sur le revenu à partir du taux de prélèvement à la source
+                      </label>
+                    </div>
+                    <div class="mb-3">
+                      <div class="mb-3 ">
+                        <label for="taxRate" class="form-label" title="Plus fiable si vous êtes mariés et/ou avez des enfants">
+                          Taux de prélèvement à la source
+                        </label>
+                        <div class="input-group">
+                          <span class="input-group-text" id="percentTaxRate">%</span>
+                          <input type="text" :class="taxRateClass" v-model="taxRate" class="form-control" id="taxRate" placeholder="Taux personnalisé trouvable sur le site des impôts" aria-describedby="percentTaxRate">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-3" v-if="computeIncomeTaxWithTaxRate">
+                      <div class="alert alert-info" role="info">
+                        Le calcul de l'impôt ne prend en compte que vos revenus.<br/>
+                        Si vous souhaitez une simulation qui prenne en compte votre situation familiale (nombre de parts etc...)
+                        veuillez fournir le taux personnalisé de prélèvement à la source.
+                      </div>
+                    </div>
+
+
                   </form>
                 </div>
               </div>
@@ -205,10 +235,10 @@
                           <th scope="row">Total Reçu</th>
                           <td>{{ totalRevenue  }}€</td>
                         </tr>
-                      <tr>
+                        <tr>
                           <th scope="row">Total imposable</th>
                           <td>{{ totalTaxableRevenue  }}€</td>
-                        </tr>                      
+                        </tr>
                         <tr>
                           <th scope="row">Impot sur le revenu</th>
                           <td>-{{ impotRevenu  }}€</td>
@@ -240,6 +270,8 @@ export default {
   data : function() {
     return {
       tjm : this.configuration.default.tjm,
+      taxRate : '',
+      computeIncomeTaxWithTaxRate : this.configuration.default.computeIncomeTaxWithTaxRate,
       flatTax : this.configuration.default.sasu.flatTax,
       workload : this.configuration.default.numberOfWorkedDays,
       expenses : this.configuration.default.expenses,
@@ -287,13 +319,27 @@ export default {
       }
       return Math.round(this.dividends * this.configuration.taxes.sasu.csgRdsOnDividends); 
     },
+    taxRateClass() {
+      return this.isTaxRateInvalid ? 'is-invalid' : 'is-valid'
+    },
+
+    isTaxRateInvalid() {
+      return this.computeIncomeTaxWithTaxRate && !this.taxRate;
+    },
     totalRevenue() {
       return this.dividendsReceivedAfterTaxes + this.netSalary;
     },
     totalTaxableRevenue() {
+      // Le taux personnalisé d'imposition s'applique sur les revenus totaux (tout en conservant l'abattement sur les dividendes)
+      if (this.computeIncomeTaxWithTaxRate) {
+        return this.taxableDividends + this.netSalary;
+      }
       return this.taxableDividends + this.netSalary - Math.round((this.taxableDividends + this.netSalary)*0.10);
     },
     impotRevenu() {
+      if (this.computeIncomeTaxWithTaxRate) {
+        return Math.round(this.totalTaxableRevenue * this.taxRate / 100);
+      }
       return this.computeImpotRevenu( this.totalTaxableRevenue );
     },
     socialContributions() {
