@@ -1,28 +1,32 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
-      <div class="card">
-        <div class="card-header">
-          Paramètres
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Veuillez renseigner les paramètres nécessaires pour calculer vos revenus</h5>
-          <p class="card-text">Plus de paramètres sont à votre disposition plus bas</p>
-          <form>
-            <div class="row">
-              <div class="col-md-6">
-                <label for="tjm" class="form-label">TJM (votre tarif journalier HT)</label>
-                <input type="text" v-model="tjm" class="form-control" id="tjm" placeholder="600">
-              </div>
-              <div class="col-md-6">
-                <label for="workload" class="form-label">Nombre de jours travaillés dans l'année</label>
-                <input type="text" v-model="workload" class="form-control" id="workload" placeholder="200">
+      <h5>Veuillez renseigner les paramètres nécessaires pour calculer vos revenus</h5>
+      <p class="small">Plus de paramètres sont à votre disposition plus bas</p>
+      <form class="mt-4">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="tjm" class="form-label">TJM (votre tarif journalier HT)</label>
+              <div class="input-group mb-3">
+                <input type="text" v-model="tjm" id="tjm" placeholder="600" class="form-control" aria-label="TJM HT">
+                <span class="input-group-text">€ HT</span>
               </div>
             </div>
-          </form>
+            <div class="mb-3">
+              <label for="workload" class="form-label">Nombre de jours travaillés dans l'année</label>
+              <span class="range-legend">{{ workload }}</span>
+              <input type="range" v-model="workload" min="0" max="365" class="form-range" id="workload">
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
+
     </div>
+
+
+    <hr class="mt-5 mb-5">
+
 
     <div class="row mt-3" v-if="revenue > configuration.taxes.autoentreprise.maxRevenue">
       <div class="alert alert-danger" role="alert">
@@ -30,18 +34,20 @@
       </div>
     </div>
 
-    
-    
+
     <div class="row">
-      <div class="card text-center col-md-3">
+      <div class="d-flex flex-row justify-content-center">
+        <div class="card text-center col-md-3 card-stats">
           <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted">In my pocket (après IR): </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (netSalary -  impotRevenu).toLocaleString() }}</span></p>
+            <h6 class="card-title text-uppercase text-muted"><i class="bi-gift-fill"></i> &nbsp; In my pocket (après IR): </h6>
+            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (netSalary -  impotRevenu).toLocaleString() }}</span>
+            </p>
           </div>
+        </div>
       </div>
     </div>
 
-    <div class="row">
+    <div class="row mt-5">
       <div class="card">
         
         <div class="card-body">

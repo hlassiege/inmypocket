@@ -1,40 +1,33 @@
 <template>
-  <div class="container">
+  <div class="container mt-5">
     <div class="row">
-      <div class="card">
-        <div class="card-header">
-          Paramètres
-        </div>
-        <div class="card-body">
-          <h5 class="card-title">Comparez les revenus que vous auriez en freelance</h5>
-          <p class="card-text">Plus de paramètres sont à votre disposition plus bas</p>
-          <form>
-            <div class="row">
-              <div class="col-md-6">
-                <label for="grossSalary" class="form-label">Brut annuel</label>
-                <input type="text" v-model="grossSalary" class="form-control" id="grossSalary" placeholder="600">
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-
-    
-    
-    <div class="row">
-      <div class="card text-center col-md-3">
-          <div class="card-body">
-            <h6 class="card-title text-uppercase text-muted">In my pocket (après IR): </h6>
-            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (netSalary -  impotRevenu).toLocaleString() }}</span></p>
+      <h5 class="card-title">Comparez les revenus que vous auriez en freelance</h5>
+      <form>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="grossSalary" class="form-label">Brut annuel</label>
+            <input type="text" v-model="grossSalary" class="form-control" id="grossSalary" placeholder="600">
           </div>
-      </div>
+        </div>
+      </form>
     </div>
 
+    <hr class="mt-5 mb-5">
 
-    
-    
     <div class="row">
+      <div class="d-flex flex-row justify-content-center">
+        <div class="card text-center col-md-3 card-stats">
+          <div class="card-body">
+            <h6 class="card-title text-uppercase text-muted"><i class="bi-gift-fill"></i> &nbsp; In my pocket (après IR): </h6>
+            <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (netSalary -  impotRevenu).toLocaleString() }}</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="row mt-5">
       <div class="card">
         
         <div class="card-body">

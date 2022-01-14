@@ -8,3 +8,7 @@
 
 <script>
 </script>
+
+<style>
+  @import './assets/css/inmypocket.css';
+</style>
