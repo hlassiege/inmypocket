@@ -1,19 +1,13 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-2">
-        <Sidebar/>
-      </div>
-      <div class="col-10">
-        <AutoEntrepreneur/>
-      </div>
-    </div>
-
-  </div>
+  <Header/>
+  <Sidebar>
+    <AutoEntrepreneur/>
+  </Sidebar>
   <Footer/>
 </template>
 
 <script>
+import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
 import Sidebar from "../components/Sidebar";
 import AutoEntrepreneur from "../components/AutoEntrepreneurTab";
@@ -23,7 +17,8 @@ export default {
   components: {
     AutoEntrepreneur,
     Sidebar,
-    Footer
+    Footer,
+    Header
   }
 }
 </script>
