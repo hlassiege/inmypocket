@@ -3,26 +3,24 @@
         <div class="row">
             <div class="col-2">
                 <div class="row">
-                    <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
-                        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <div class="d-flex flex-column flex-shrink-0 p-3 " style="width: 280px;">
                             <span class="fs-4">Calcul des revenus</span>
-                        </a>
                         <hr>
                         <ul class="nav nav-pills flex-column mb-auto">
                             <li class="nav-item">
-                                <router-link class="nav-link text-white" to="/sasu">SASU</router-link>
+                                <router-link class="nav-link text-dark" to="/sasu">SASU</router-link>
                             </li>
                             <li>
-                                <router-link class="nav-link text-white " to="/eurl">EURL</router-link>
+                                <router-link class="nav-link  text-dark" to="/eurl">EURL</router-link>
                             </li>
                             <li>
-                                <router-link class="nav-link text-white" to="/portage">Portage Salarial</router-link>
+                                <router-link class="nav-link text-dark" to="/portage">Portage Salarial</router-link>
                             </li>
                             <li>
-                                <router-link class="nav-link text-white" to="/micro">Auto/Micro Entreprise</router-link>
+                                <router-link class="nav-link text-dark" to="/micro">Auto/Micro Entreprise</router-link>
                             </li>
                             <li>
-                                <router-link class="nav-link text-white" to="/employee">Salariat</router-link>
+                                <router-link class="nav-link text-dark" to="/employee">Salariat</router-link>
                             </li>
                         </ul>
                         <hr>
@@ -48,3 +46,9 @@
         name: "Sidebar"
     };
 </script>
+<style>
+    a.active {
+        color : #fff !important;
+    }
+
+</style>
