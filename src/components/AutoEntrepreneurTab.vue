@@ -49,6 +49,58 @@
 
     <div class="row mt-5">
       <div class="card">
+
+        <div class="card-body">
+          <div class="accordion accordion-flush" id="accordionAdvancedSettings">
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="flush-headingAdvancedSettings">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-advancedSettings" aria-expanded="false" aria-controls="flush-advancedSettings">
+                  Paramètres avancés
+                </button>
+              </h2>
+              <div id="flush-advancedSettings" class="accordion-collapse collapse" aria-labelledby="flush-headingAdvancedSettings" data-bs-parent="#accordionAdvancedSettings">
+                <div class="accordion-body">
+
+                  <form>
+                    <div class="form-check mb-3 ">
+                      <input class="form-check-input" type="checkbox" v-model="computeIncomeTaxWithTaxRate" :value="true" id="computeIncomeTaxWithTaxRate">
+                      <label class="form-check-label" for="computeIncomeTaxWithTaxRate">
+                        Calculer l'impôt sur le revenu à partir du taux de prélèvement à la source
+                      </label>
+                    </div>
+                    <div class="mb-3">
+                      <div class="mb-3 ">
+                        <label for="taxRate" class="form-label" title="Plus fiable si vous êtes mariés et/ou avez des enfants">
+                          Taux de prélèvement à la source
+                        </label>
+                        <div class="input-group">
+                          <span class="input-group-text" id="percentTaxRate">%</span>
+                          <input type="text" :class="taxRateClass" v-model="taxRate" class="form-control" id="taxRate" placeholder="Taux personnalisé trouvable sur le site des impôts" aria-describedby="percentTaxRate">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mt-3" v-if="computeIncomeTaxWithTaxRate">
+                      <div class="alert alert-info" role="info">
+                        Le calcul de l'impôt ne prend en compte que vos revenus.<br/>
+                        Si vous souhaitez une simulation qui prenne en compte votre situation familiale (nombre de parts etc...)
+                        veuillez fournir le taux personnalisé de prélèvement à la source.
+                      </div>
+                    </div>
+
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row mt-5">
+      <div class="card">
         
         <div class="card-body">
           <div class="accordion accordion-flush" id="accordionDetails">
@@ -110,15 +162,24 @@
 import computeImpotParTranche from '../helpers/taxeComputations';
 
 export default {
-  name: "PortageTab",
+  name: "AutoEntrepreneurTab",
   inject : ['configuration'],
   data : function() {
     return {
+      taxRate : '',
+      computeIncomeTaxWithTaxRate : this.configuration.default.computeIncomeTaxWithTaxRate,
       tjm : this.configuration.default.tjm,
       workload : this.configuration.default.autoentreprise.numberOfWorkedDays,
     };
   },  
   computed: {
+    taxRateClass() {
+      return this.isTaxRateInvalid ? 'is-invalid' : 'is-valid'
+    },
+
+    isTaxRateInvalid() {
+      return this.computeIncomeTaxWithTaxRate && !this.taxRate;
+    },
     revenue() {
       return this.tjm * this.workload;
     },
@@ -129,10 +190,17 @@ export default {
       return this.revenue - this.socialContributions;
     },
     totalTaxableRevenue() {
+      // Le taux personnalisé d'imposition s'applique sur les revenus totaux
+      if (this.computeIncomeTaxWithTaxRate) {
+        return this.netSalary;
+      }
       // Abattement de 10%. Source : https://www.impots.gouv.fr/portail/particulier/questions/comment-puis-je-beneficier-de-la-deduction-forfaitaire-de-10 
       return this.netSalary - Math.round(this.netSalary * 0.10);
     },
     impotRevenu() {
+      if (this.computeIncomeTaxWithTaxRate) {
+        return Math.round(this.totalTaxableRevenue * this.taxRate / 100);
+      }
       return this.computeImpotRevenu( this.totalTaxableRevenue );
     }
   },

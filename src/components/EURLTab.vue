@@ -294,7 +294,7 @@ export default {
       return this.dividendsReceivedAfterTaxes + this.netSalary;
     },
     totalTaxableRevenue() {
-      // Le taux personnalisé d'imposition s'applique sur les revenus totaux (tout en conservant l'abattement sur les dividendes)
+      // Le taux personnalisé d'imposition s'applique sur les revenus totaux
       if (this.computeIncomeTaxWithTaxRate) {
         return this.taxableDividends + this.netSalary;
       }
