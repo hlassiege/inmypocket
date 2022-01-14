@@ -30,6 +30,13 @@
                         data-mdb-ripple-color="dark"
                 ><i class="bi-github"></i
                 ></a>
+                <!-- Github -->
+                <a
+                        class="btn btn-link btn-floating btn-lg text-white m-1"
+                        href="https://www.malt.fr/profile/hlassiege"
+                        role="button"
+                        data-mdb-ripple-color="dark"
+                ><img class="malt-icon" src="https://dam.malt.com/brand/malt_logo_white-resize"></a>
             </section>
             <!-- Section: Social media -->
         </div>
@@ -59,5 +66,10 @@
     footer {
         background-color: #27363b;
         flex-shrink: 0;
+    }
+    .malt-icon {
+        width: 25px;
+        margin-left : -7px;
+        margin-top : -4px;
     }
 </style>
