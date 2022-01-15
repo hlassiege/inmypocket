@@ -1,5 +1,5 @@
 <template>
-    <footer class="text-center text-white mt-5">
+    <footer class="text-center text-white footer mt-auto py-3">
         <!-- Grid container -->
         <div class="container pt-4 ">
             <!-- Section: Social media -->
@@ -65,7 +65,6 @@
 <style>
     footer {
         background-color: #27363b;
-        flex-shrink: 0;
     }
     .malt-icon {
         width: 25px;

@@ -1,42 +1,43 @@
 <template>
-    <div class="container-fluid content">
-        <div class="row">
-            <div class="col-2">
-                <div class="row">
-                    <div class="d-flex flex-column flex-shrink-0 p-3 " style="width: 280px;">
-                            <span class="fs-4">Calcul des revenus</span>
-                        <hr>
-                        <ul class="nav nav-pills flex-column mb-auto">
-                            <li class="nav-item">
-                                <router-link class="nav-link text-dark" to="/sasu">SASU</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link  text-dark" to="/eurl">EURL</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link text-dark" to="/portage">Portage Salarial</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link text-dark" to="/micro">Auto/Micro Entreprise</router-link>
-                            </li>
-                            <li>
-                                <router-link class="nav-link text-dark" to="/employee">Salariat</router-link>
-                            </li>
-                        </ul>
-                        <hr>
+    <main>
+        <div class="container-fluid content">
+            <div class="row">
+                <div class="col-2">
+                    <div class="row">
+                        <div class="d-flex flex-column flex-shrink-0 p-3 " style="width: 280px;">
+                                <span class="fs-4">Calcul des revenus</span>
+                            <hr>
+                            <ul class="nav nav-pills flex-column mb-auto">
+                                <li class="nav-item">
+                                    <router-link class="nav-link text-dark" to="/sasu">SASU</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link  text-dark" to="/eurl">EURL</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link text-dark" to="/portage">Portage Salarial</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link text-dark" to="/micro">Auto/Micro Entreprise</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="nav-link text-dark" to="/employee">Salariat</router-link>
+                                </li>
+                            </ul>
+                            <hr>
 
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-10">
-                <slot>
+                <div class="col-10">
+                    <slot>
 
-                </slot>
+                    </slot>
+                </div>
             </div>
+
         </div>
-
-    </div>
-
+    </main>
 
 
 </template>
@@ -50,8 +51,6 @@
     a.active {
         color : #fff !important;
     }
-    .content {
-        height: 83%;
-    }
+
 
 </style>

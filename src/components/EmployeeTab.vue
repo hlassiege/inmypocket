@@ -142,7 +142,9 @@ export default {
   inject : ['configuration'],
   data : function() {
     return {
-      grossSalary : this.configuration.default.employee.grossSalary
+      grossSalary : this.configuration.default.employee.grossSalary,
+      taxRate : '',
+      computeIncomeTaxWithTaxRate : this.configuration.default.computeIncomeTaxWithTaxRate,
     };
   },  
   computed: {
