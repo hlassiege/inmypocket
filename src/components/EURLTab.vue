@@ -2,7 +2,6 @@
   <div class="container mt-5">
     <div class="row">
       <h5>Veuillez renseigner les paramètres nécessaires pour calculer vos revenus</h5>
-      <p class="small">Plus de paramètres sont à votre disposition plus bas</p>
       <form class="mt-4">
         <div class="row">
           <div class="col-md-6">
@@ -21,10 +20,9 @@
           </div>
         </div>
       </form>
-
+      <a href="#" v-on:click="showAdvancedSettings" ><i class="bi-caret-right-fill"></i>&nbsp;Paramètres avancés</a>
     </div>
 
-    <hr class="mt-5 mb-5">
 
     <div class="row">
       <div class="d-flex flex-row justify-content-center">
@@ -32,6 +30,8 @@
           <div class="card-body">
             <h6 class="card-title text-uppercase text-muted"><i class="bi-gift-fill"></i> &nbsp; In my pocket (après IR): </h6>
             <p class="card-text red-text">€<span class="ml-2" style="font-size: 30px;">{{ (totalRevenue -  impotRevenu).toLocaleString() }}</span>
+              <br/>
+              <small class="text-info"><a href="#" v-on:click="showDetails" ><i class="bi-question-circle"></i></a></small>
             </p>
           </div>
         </div>
@@ -40,213 +40,198 @@
 
 
 
-    <div class="row mt-5">
-      <div class="card">
-        
-        <div class="card-body">
-          <div class="accordion accordion-flush" id="accordionAdvancedSettings">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="flush-headingAdvancedSettings">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-advancedSettings" aria-expanded="false" aria-controls="flush-advancedSettings">
-                  Paramètres avancés
-                </button>
-              </h2>
-              <div id="flush-advancedSettings" class="accordion-collapse collapse" aria-labelledby="flush-headingAdvancedSettings" data-bs-parent="#accordionAdvancedSettings">
-                <div class="accordion-body">
-
-                  <form>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <label for="expenses" class="form-label">Frais annuel</label>
-                        <div class="input-group">
-                          <span class="input-group-text" id="euros">€</span>
-                        <input type="text" v-model="expenses" class="form-control" id="expenses" placeholder="10000" aria-describedby="euros">
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="shareOfSalary" class="form-label">Pourcentage versé en salaire (versus dividendes)</label>
-                        <div class="input-group">
-                        <span class="input-group-text" id="percent">%</span>
-                        <input type="text" v-model="shareOfSalary" class="form-control" id="shareOfSalary" placeholder="15" aria-describedby="percent">
-                        </div>
-                      </div>
-                    </div>
-
-                    <hr class="mt-4 mb-3"/>
-
-                    <div class="form-check mb-3 ">
-                      <input class="form-check-input" type="checkbox" v-model="computeIncomeTaxWithTaxRate" :value="true" id="computeIncomeTaxWithTaxRate">
-                      <label class="form-check-label" for="computeIncomeTaxWithTaxRate">
-                        Calculer l'impôt sur le revenu à partir du taux de prélèvement à la source
-                      </label>
-                    </div>
-                    <div class="mb-3">
-                      <div class="mb-3 ">
-                        <label for="taxRate" class="form-label" title="Plus fiable si vous êtes mariés et/ou avez des enfants">
-                          Taux de prélèvement à la source
-                        </label>
-                        <div class="input-group">
-                          <span class="input-group-text" id="percentTaxRate">%</span>
-                          <input type="text" :class="taxRateClass" v-model="taxRate" class="form-control" id="taxRate" placeholder="Taux personnalisé trouvable sur le site des impôts" aria-describedby="percentTaxRate">
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row mt-3" v-if="computeIncomeTaxWithTaxRate">
-                      <div class="alert alert-info" role="info">
-                        Le calcul de l'impôt ne prend en compte que vos revenus.<br/>
-                        Si vous souhaitez une simulation qui prenne en compte votre situation familiale (nombre de parts etc...)
-                        veuillez fournir le taux personnalisé de prélèvement à la source.
-                      </div>
-                    </div>
-
-
-                  </form>
+    <div class="modal" id="modalSettings">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Paramètres avancés</h5>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="mb-3">
+                <label for="expenses" class="form-label">Frais annuel</label>
+                <div class="input-group">
+                  <span class="input-group-text" id="euros">€</span>
+                  <input type="text" v-model="expenses" class="form-control" id="expenses" placeholder="10000" aria-describedby="euros">
                 </div>
               </div>
-            </div>
+              <div class="mb-3">
+                <div class="mb-3 ">
+                  <label for="shareOfSalary" class="form-label">Pourcentage versé en salaire (versus dividendes)</label>
+                  <div class="input-group">
+                    <span class="input-group-text" id="percent">%</span>
+                    <input type="text" v-model="shareOfSalary" class="form-control" id="shareOfSalary" placeholder="15" aria-describedby="percent">
+                  </div>
+                </div>
+              </div>
+
+              <hr class="mt-4 mb-3"/>
+
+              <div class="form-check mb-3 ">
+                <input class="form-check-input" type="checkbox" v-model="computeIncomeTaxWithTaxRate" :value="true" id="computeIncomeTaxWithTaxRate">
+                <label class="form-check-label" for="computeIncomeTaxWithTaxRate">
+                  Calculer l'impôt sur le revenu à partir du taux de prélèvement à la source
+                </label>
+              </div>
+              <div class="mb-3">
+                <div class="mb-3 ">
+                  <label for="taxRate" class="form-label" title="Plus fiable si vous êtes mariés et/ou avez des enfants">
+                    Taux de prélèvement à la source
+                  </label>
+                  <div class="input-group">
+                    <span class="input-group-text" id="percentTaxRate">%</span>
+                    <input type="text" :class="taxRateClass" v-model="taxRate" class="form-control" id="taxRate" placeholder="Taux personnalisé trouvable sur le site des impôts" aria-describedby="percentTaxRate">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mt-3" v-if="computeIncomeTaxWithTaxRate">
+                <div class="alert alert-info" role="info">
+                  Le calcul de l'impôt ne prend en compte que vos revenus.<br/>
+                  Si vous souhaitez une simulation qui prenne en compte votre situation familiale (nombre de parts etc...)
+                  veuillez fournir le taux personnalisé de prélèvement à la source.
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
           </div>
         </div>
       </div>
     </div>
+
+    <div class="modal" id="modalDetails">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Détails</h5>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col">
+              <h4>Dépenses</h4>
+              <table class="table table-borderless">
+                <tbody>
+                <tr>
+                  <th scope="row">Frais</th>
+                  <td>{{ expenses }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Salaire super brut</th>
+                  <td>{{ grossSalary }}€</td>
+                </tr>
+                <tr style="border-top: 1px solid #ff000d;">
+                  <th scope="row">Total charges sociétés</th>
+                  <td>{{ grossSalary + expenses }}€</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <h4>Bénéfices</h4>
+              <table class="table table-borderless">
+                <tbody>
+                <tr>
+                  <th scope="row">Chiffre d'affaires</th>
+                  <td>{{ revenue }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Charges sociétés</th>
+                  <td>-{{ grossSalary + expenses }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row" >Bénéfice brut</th>
+                  <td>{{ benefits }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Impot société</th>
+                  <td>-{{ impotSociete  }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row">Bénéfice net <small>(dividendes versables)</small></th>
+                  <td>{{ dividends }}€</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <h4>Dividendes</h4>
+              <table class="table table-borderless">
+                <tbody>
+                <tr>
+                  <th scope="row">Dividendes brut</th>
+                  <td>{{ dividends  }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cotisations sociales sur dividendes</th>
+                  <td>-{{ socialContributionsOnDividends  }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row">Dividendes perçus</th>
+                  <td>{{ dividendsReceivedAfterTaxes  }}€</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="col">
+              <h4>Revenus personnels</h4>
+              <table class="table table-borderless">
+                <tbody>
+                <tr>
+                  <th scope="row">Salaire super brut</th>
+                  <td>{{ grossSalary }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Cotisations sociales <small> (patronales + salariales)</small></th>
+                  <td>-{{ socialContributions }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row" >Salaire versé net</th>
+                  <td>{{ netSalary }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Dividendes perçus</th>
+                  <td>{{ dividendsReceivedAfterTaxes  }}€</td>
+                </tr>
+                <tr>
+                  <td >Dividendes imposables <small>(abattement 40%)</small></td>
+                  <td>{{ taxableDividends  }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row">Total Reçu</th>
+                  <td>{{ totalRevenue  }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Total imposable</th>
+                  <td>{{ totalTaxableRevenue  }}€</td>
+                </tr>
+                <tr>
+                  <th scope="row">Impot sur le revenu</th>
+                  <td>-{{ impotRevenu  }}€</td>
+                </tr>
+                <tr class="lineTotal">
+                  <th scope="row">Net après impot</th>
+                  <td><strong>{{ totalRevenue -  impotRevenu }}€</strong></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
     
-    <div class="row">
-      <div class="card">
-        
-        <div class="card-body">
-          <div class="accordion accordion-flush" id="accordionDetails">
-          
-          <div class="accordion-item">
-            <h2 class="accordion-header" id="flush-headingOne">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                Details
-              </button>
-            </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionDetails">
-              <div class="accordion-body">
-                <div class="row">
-                  <div class="col">
-                    <h4>Dépenses</h4>
-                    <table class="table table-borderless">
-                      <tbody>
-                        <tr>
-                          <th scope="row">Frais</th>
-                          <td>{{ expenses }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Salaire super brut</th>
-                          <td>{{ grossSalary }}€</td>
-                        </tr>
-                        <tr style="border-top: 1px solid #ff000d;">
-                          <th scope="row">Total charges sociétés</th>
-                          <td>{{ grossSalary + expenses }}€</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="col">
-                    <h4>Bénéfices</h4>
-                    <table class="table table-borderless">
-                      <tbody>
-                        <tr>
-                          <th scope="row">Chiffre d'affaires</th>
-                          <td>{{ revenue }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Charges sociétés</th>
-                          <td>-{{ grossSalary + expenses }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row" >Bénéfice brut</th>
-                          <td>{{ benefits }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Impot société</th>
-                          <td>-{{ impotSociete  }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row">Bénéfice net <small>(dividendes versables)</small></th>
-                          <td>{{ dividends }}€</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div class="col">
-                    <h4>Dividendes</h4>
-                    <table class="table table-borderless">
-                      <tbody>
-                        <tr>
-                          <th scope="row">Dividendes brut</th>
-                          <td>{{ dividends  }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Cotisations sociales sur dividendes</th>
-                          <td>-{{ socialContributionsOnDividends  }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>    
 
-                  <div class="col">
-                    <h4>Revenus personnels</h4>
-                    <table class="table table-borderless">
-                      <tbody>
-                        <tr>
-                          <th scope="row">Salaire super brut</th>
-                          <td>{{ grossSalary }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Cotisations sociales <small> (patronales + salariales)</small></th>
-                          <td>-{{ socialContributions }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row" >Salaire versé net</th>
-                          <td>{{ netSalary }}€</td>
-                        </tr>
-                        <tr>
-                          <th scope="row">Dividendes perçus</th>
-                          <td>{{ dividendsReceivedAfterTaxes  }}€</td>
-                        </tr>
-                        <tr>
-                          <td >Dividendes imposables <small>(abattement 40%)</small></td>
-                          <td>{{ taxableDividends  }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row">Total Reçu</th>
-                          <td>{{ totalRevenue  }}€</td>
-                        </tr>
-                      <tr>
-                          <th scope="row">Total imposable</th>
-                          <td>{{ totalTaxableRevenue  }}€</td>
-                        </tr>                      
-                        <tr>
-                          <th scope="row">Impot sur le revenu</th>
-                          <td>-{{ impotRevenu  }}€</td>
-                        </tr>
-                        <tr class="lineTotal">
-                          <th scope="row">Net après impot</th>
-                          <td><strong>{{ totalRevenue -  impotRevenu }}€</strong></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>                
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import computeImpotParTranche from '../helpers/taxeComputations';
+import {Modal} from 'bootstrap';
 
 export default {
   name: "EURLTab",
@@ -318,6 +303,14 @@ export default {
     }
   },
   methods : {
+    showDetails() {
+      var myModal = new Modal(document.getElementById('modalDetails'), {})
+      myModal.show();
+    },
+    showAdvancedSettings() {
+      var myModal = new Modal(document.getElementById('modalSettings'), {})
+      myModal.show();
+    },
     computeSocialContributions(amount) {
       var allocationsFamiliales = Math.round(computeImpotParTranche(amount, this.configuration.taxes.eurl.socialContributions.allocationFamiliales));
       var csgRds = Math.round(amount * this.configuration.taxes.eurl.socialContributions.csgRds);
