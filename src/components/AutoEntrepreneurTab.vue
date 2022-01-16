@@ -109,6 +109,10 @@
                     <th scope="row">Cotisations sociales</th>
                     <td>-{{ socialContributions }}€</td>
                   </tr>
+                  <tr>
+                    <th scope="row">CFP (contribution formation pro)</th>
+                    <td>-{{ cfp }}€</td>
+                  </tr>
                   <tr class="lineTotal">
                     <th scope="row">Salaire net</th>
                     <td>{{ netSalary }}€</td>
@@ -168,16 +172,14 @@ export default {
     socialContributions() {
       return Math.round(this.revenue * this.configuration.taxes.autoentreprise.socialContributions);
     },
+    cfp() {
+      return Math.round(this.revenue * this.configuration.taxes.autoentreprise.cfp);
+    },
     netSalary() {
-      return this.revenue - this.socialContributions;
+      return this.revenue - this.socialContributions - this.cfp;
     },
     totalTaxableRevenue() {
-      // Le taux personnalisé d'imposition s'applique sur les revenus totaux
-      if (this.computeIncomeTaxWithTaxRate) {
-        return this.netSalary;
-      }
-      // Abattement de 10%. Source : https://www.impots.gouv.fr/portail/particulier/questions/comment-puis-je-beneficier-de-la-deduction-forfaitaire-de-10 
-      return this.netSalary - Math.round(this.netSalary * 0.10);
+      return this.revenue - Math.round(this.revenue * this.configuration.taxes.autoentreprise.abattement);
     },
     impotRevenu() {
       if (this.computeIncomeTaxWithTaxRate) {

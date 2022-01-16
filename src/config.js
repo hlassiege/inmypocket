@@ -45,6 +45,11 @@ export default {
         ],
 
         autoentreprise : {
+            // taux d'abattement pour BNC (prestation de service intellectuelle) Source : https://pole-autoentrepreneur.com/guide/la-fiscalite/impots-auto-entrepreneur/taux-d-abattement-auto-entrepreneur
+            abattement: 0.34,
+            // source https://mon-entreprise.urssaf.fr/documentation/dirigeant/auto%E2%80%91entrepreneur/cotisations-et-contributions/contribution-formation-professionnelle
+            // ici je prends le taux pour activité commerciale en BNC non réglémentée
+            cfp : 0.001,
             // Source : https://www.superindep.fr/blog/2021/salaire-autoentrepreneur-net/ (2022)
             socialContributions : 0.22,
             // Source : https://www.impots.gouv.fr/portail/professionnel/questions/pour-rester-micro-entrepreneur-quel-montant-de-chiffre-daffaires-ou-de
