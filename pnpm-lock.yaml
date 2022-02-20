@@ -16,7 +16,6 @@ specifiers:
   jquery: ^3.6.0
   mutationobserver-shim: ^0.3.7
   popper.js: ^1.16.1
-  portal-vue: ^2.1.7
   sass: ^1.26.11
   sass-loader: ^10.0.2
   vue: ^3.0.0
@@ -31,7 +30,6 @@ dependencies:
   jquery: 3.6.0
   mutationobserver-shim: 0.3.7
   popper.js: 1.16.1
-  portal-vue: 2.1.7_vue@3.2.26
   vue: 3.2.26
   vue-router: 4.0.12_vue@3.2.26
 
@@ -7879,14 +7877,6 @@ packages:
   /popper.js/1.16.1:
     resolution: {integrity: sha512-Wb4p1J4zyFTbM+u6WuO4XstYx4Ky9Cewe4DWrel7B0w6VVICvPwdOpotjzcf6eD8TsckVnIMNONQyPIUFOUbCQ==}
     deprecated: You can find the new Popper v2 at @popperjs/core, this package is dedicated to the legacy v1
-    dev: false
-
-  /portal-vue/2.1.7_vue@3.2.26:
-    resolution: {integrity: sha512-+yCno2oB3xA7irTt0EU5Ezw22L2J51uKAacE/6hMPMoO/mx3h4rXFkkBkT4GFsMDv/vEe8TNKC3ujJJ0PTwb6g==}
-    peerDependencies:
-      vue: ^2.5.18
-    dependencies:
-      vue: 3.2.26
     dev: false
 
   /portfinder/1.0.28:
