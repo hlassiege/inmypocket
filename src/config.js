@@ -41,7 +41,7 @@ export default {
         // Le taux de 25% c'est pour 2022, c'était 26.5 pour 2021
         impotSociete : [
             [38120, 0.15],
-            [Infinity, 0.025]
+            [Infinity, 0.25]
         ],
 
         autoentreprise : {
