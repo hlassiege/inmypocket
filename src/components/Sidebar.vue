@@ -25,7 +25,9 @@
                                 </li>
                             </ul>
                             <hr>
-
+                            <span class="text-center">
+                                <img src="https://visitor-badge.laobi.icu/badge?page_id=hlassiege.inmypocket" alt="visitor badge" style="height:20px; width:67px">
+                            </span>
                         </div>
                     </div>
                 </div>
