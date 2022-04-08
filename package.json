@@ -17,7 +17,6 @@
     "jquery": "^3.6.0",
     "mutationobserver-shim": "^0.3.7",
     "popper.js": "^1.16.1",
-    "portal-vue": "^2.1.7",
     "vue": "^3.0.0",
     "vue-router": "4"
   },
@@ -34,7 +33,6 @@
     "jest": "^27.4.7",
     "mutationobserver-shim": "^0.3.3",
     "popper.js": "^1.16.0",
-    "portal-vue": "^2.1.6",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
     "vue-cli-plugin-bootstrap": "~0.4.0"
